@@ -19,9 +19,7 @@
       --shadow: 0 16px 40px rgba(15, 122, 79, 0.13);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -33,10 +31,7 @@
       min-height: 100vh;
     }
 
-    header {
-      padding: 32px 20px 20px;
-      text-align: center;
-    }
+    header { padding: 32px 20px 16px; text-align: center; }
 
     header h1 {
       margin: 0;
@@ -48,14 +43,31 @@
     header p {
       margin: 10px auto 0;
       color: var(--muted);
-      max-width: 780px;
+      max-width: 850px;
       line-height: 1.55;
     }
 
-    main {
-      width: min(1400px, calc(100% - 32px));
-      margin: 0 auto 48px;
+    main { width: min(1440px, calc(100% - 32px)); margin: 0 auto 48px; }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 16px 0 20px;
+      flex-wrap: wrap;
     }
+
+    .tab-button {
+      background: #fff;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(15, 122, 79, 0.08);
+    }
+
+    .tab-button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    .page { display: none; }
+    .page.active { display: block; }
 
     .dashboard {
       display: grid;
@@ -64,18 +76,14 @@
       margin: 20px 0;
     }
 
-    .stat-card,
-    .panel {
-      background: rgba(255, 255, 255, 0.9);
+    .stat-card, .panel {
+      background: rgba(255, 255, 255, 0.92);
       border: 1px solid var(--border);
       border-radius: 22px;
       box-shadow: var(--shadow);
     }
 
-    .stat-card {
-      padding: 16px;
-      min-height: 94px;
-    }
+    .stat-card { padding: 16px; min-height: 94px; }
 
     .stat-card span {
       display: block;
@@ -83,7 +91,7 @@
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .stat-card strong {
@@ -93,47 +101,24 @@
       color: var(--primary-dark);
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 400px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
+    .grid { display: grid; grid-template-columns: 400px 1fr; gap: 18px; align-items: start; }
+    .two-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+    .panel { padding: 20px; }
 
-    .panel {
-      padding: 20px;
-    }
+    .panel h2 { margin: 0 0 14px; color: var(--primary-dark); font-size: 1.2rem; }
 
-    .panel h2 {
-      margin: 0 0 14px;
-      color: var(--primary-dark);
-      font-size: 1.2rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 110px;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .settings-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
+    .form-row { display: grid; grid-template-columns: 1fr 110px; gap: 10px; margin-bottom: 10px; }
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
 
     label {
       display: block;
       font-size: 0.82rem;
       color: var(--muted);
       margin-bottom: 6px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
-    input,
-    select {
+    input, select {
       width: 100%;
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -143,61 +128,29 @@
       outline: none;
     }
 
-    input:focus,
-    select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(15, 122, 79, 0.12);
-    }
+    input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(15, 122, 79, 0.12); }
 
     button {
       border: 0;
       border-radius: 14px;
       padding: 12px 14px;
       font: inherit;
-      font-weight: 800;
+      font-weight: 850;
       cursor: pointer;
       background: var(--primary);
       color: #fff;
       transition: transform 0.12s ease, background 0.12s ease, opacity 0.12s ease;
     }
 
-    button:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
+    button:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    button.secondary { background: #e8f3ed; color: var(--primary-dark); }
+    button.secondary:hover { background: #d9eee3; }
+    button.warning { background: var(--accent); color: #352300; }
+    button.danger { background: var(--danger); }
+    button.full { width: 100%; }
 
-    button.secondary {
-      background: #e8f3ed;
-      color: var(--primary-dark);
-    }
-
-    button.secondary:hover {
-      background: #d9eee3;
-    }
-
-    button.warning {
-      background: var(--accent);
-      color: #352300;
-    }
-
-    button.danger {
-      background: var(--danger);
-    }
-
-    button.full {
-      width: 100%;
-    }
-
-    .button-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .button-row button {
-      flex: 1 1 130px;
-    }
+    .button-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .button-row button { flex: 1 1 130px; }
 
     .timer-box {
       background: linear-gradient(135deg, var(--primary-dark), var(--primary));
@@ -212,41 +165,19 @@
       font-size: clamp(2.4rem, 7vw, 4.2rem);
       font-variant-numeric: tabular-nums;
       line-height: 1;
-      font-weight: 900;
+      font-weight: 950;
       text-align: center;
       letter-spacing: -0.05em;
       margin: 12px 0 16px;
     }
 
-    .timer-actions {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
+    .timer-actions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .timer-actions button { background: rgba(255, 255, 255, 0.18); color: #fff; border: 1px solid rgba(255, 255, 255, 0.22); }
+    .timer-actions button:hover { background: rgba(255, 255, 255, 0.28); }
 
-    .timer-actions button {
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-    }
+    .player-list, .history-list { display: grid; gap: 9px; margin-top: 14px; max-height: 390px; overflow: auto; padding-right: 4px; }
 
-    .timer-actions button:hover {
-      background: rgba(255, 255, 255, 0.28);
-    }
-
-    .player-list,
-    .history-list {
-      display: grid;
-      gap: 9px;
-      margin-top: 14px;
-      max-height: 360px;
-      overflow: auto;
-      padding-right: 4px;
-    }
-
-    .player-card,
-    .history-card,
-    .waiting-card {
+    .player-card, .history-card, .waiting-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -257,20 +188,10 @@
       padding: 11px 12px;
     }
 
-    .player-card strong,
-    .waiting-card strong {
-      display: block;
-    }
+    .player-card strong, .waiting-card strong { display: block; }
+    .player-card small, .waiting-card small, .history-card small { color: var(--muted); }
 
-    .player-card small,
-    .waiting-card small,
-    .history-card small {
-      color: var(--muted);
-    }
-
-    .rank-badge,
-    .diff-badge,
-    .court-badge {
+    .rank-badge, .diff-badge, .court-badge, .score-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -278,190 +199,90 @@
       height: 28px;
       padding: 0 9px;
       border-radius: 999px;
-      font-weight: 900;
+      font-weight: 950;
       font-size: 0.84rem;
     }
 
-    .rank-badge {
-      background: #dff3e8;
-      color: var(--primary-dark);
-    }
+    .rank-badge { background: #dff3e8; color: var(--primary-dark); }
+    .court-badge { background: #fff0c7; color: #704900; }
+    .score-badge { background: #edf2ff; color: #253a7a; }
+    .diff-good { background: #dff3e8; color: #12613f; }
+    .diff-ok { background: #fff0c7; color: #704900; }
+    .diff-bad { background: #fde2e1; color: #992f2b; }
+    .muted { color: var(--muted); }
 
-    .court-badge {
-      background: #fff0c7;
-      color: #704900;
-    }
+    .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .matches { display: grid; gap: 14px; }
 
-    .diff-good {
-      background: #dff3e8;
-      color: #12613f;
-    }
+    .match-card { border: 1px solid var(--border); border-radius: 22px; background: #fff; overflow: hidden; box-shadow: 0 10px 28px rgba(15, 122, 79, 0.08); }
+    .match-header { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 13px 15px; background: #f0f8f3; border-bottom: 1px solid var(--border); }
+    .teams { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 12px; padding: 15px; }
+    .team { background: var(--soft); border: 1px solid var(--border); border-radius: 18px; padding: 14px; min-height: 110px; }
+    .team h3 { margin: 0 0 8px; color: var(--primary-dark); font-size: 1rem; }
+    .team ul { margin: 0; padding-left: 18px; line-height: 1.7; }
+    .versus { display: grid; place-items: center; color: var(--muted); font-weight: 950; }
 
-    .diff-ok {
-      background: #fff0c7;
-      color: #704900;
-    }
-
-    .diff-bad {
-      background: #fde2e1;
-      color: #992f2b;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .matches {
+    .score-row {
       display: grid;
-      gap: 14px;
-    }
-
-    .match-card {
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      background: #fff;
-      overflow: hidden;
-      box-shadow: 0 10px 28px rgba(15, 122, 79, 0.08);
-    }
-
-    .match-header {
-      display: flex;
-      justify-content: space-between;
+      grid-template-columns: 1fr 90px 90px auto;
       gap: 10px;
-      align-items: center;
-      padding: 13px 15px;
-      background: #f0f8f3;
-      border-bottom: 1px solid var(--border);
+      align-items: end;
+      padding: 0 15px 15px;
     }
 
-    .teams {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: stretch;
-      gap: 12px;
-      padding: 15px;
-    }
+    .waiting-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
 
-    .team {
-      background: var(--soft);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 14px;
-      min-height: 110px;
-    }
+    .alert { display: none; margin: 12px 0; padding: 12px 14px; border-radius: 16px; background: #fff4d9; color: #6b4600; border: 1px solid #ffe3a3; line-height: 1.45; }
+    .alert.show { display: block; }
+    .empty { padding: 24px; border: 1px dashed var(--border); border-radius: 18px; color: var(--muted); background: #fbfdfc; text-align: center; }
 
-    .team h3 {
-      margin: 0 0 8px;
-      color: var(--primary-dark);
-      font-size: 1rem;
-    }
-
-    .team ul {
-      margin: 0;
-      padding-left: 18px;
-      line-height: 1.7;
-    }
-
-    .versus {
-      display: grid;
-      place-items: center;
-      color: var(--muted);
-      font-weight: 900;
-    }
-
-    .waiting-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 10px;
-    }
-
-    .alert {
-      display: none;
-      margin: 12px 0;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: #fff4d9;
-      color: #6b4600;
-      border: 1px solid #ffe3a3;
-      line-height: 1.45;
-    }
-
-    .alert.show {
-      display: block;
-    }
-
-    .empty {
-      padding: 24px;
-      border: 1px dashed var(--border);
-      border-radius: 18px;
-      color: var(--muted);
-      background: #fbfdfc;
-      text-align: center;
-    }
-
-    .small-danger {
+    .small-danger, .small-secondary {
       background: transparent;
-      color: var(--danger);
       padding: 6px 8px;
       border-radius: 10px;
-    }
-
-    .small-danger:hover {
-      background: #fde2e1;
-      color: #992f2b;
       transform: none;
     }
 
-    @media (max-width: 1100px) {
-      .dashboard {
-        grid-template-columns: repeat(4, 1fr);
-      }
+    .small-danger { color: var(--danger); }
+    .small-danger:hover { background: #fde2e1; color: #992f2b; transform: none; }
+    .small-secondary { color: var(--primary-dark); }
+    .small-secondary:hover { background: #dff3e8; transform: none; }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 16px; }
+    th, td { text-align: left; border-bottom: 1px solid var(--border); padding: 11px 10px; vertical-align: middle; }
+    th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: #f0f8f3; }
+    tr:last-child td { border-bottom: 0; }
+    td input { padding: 9px 10px; border-radius: 12px; }
+
+    .ranking-table-wrap { overflow: auto; border: 1px solid var(--border); border-radius: 18px; background: #fff; }
+
+    @media (max-width: 1100px) {
+      .dashboard { grid-template-columns: repeat(4, 1fr); }
+      .grid, .two-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 720px) {
-      main {
-        width: min(100% - 20px, 1400px);
-      }
-
-      .dashboard {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .settings-grid,
-      .form-row,
-      .teams {
-        grid-template-columns: 1fr;
-      }
-
-      .versus {
-        padding: 0;
-      }
-
-      .timer-actions {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      main { width: min(100% - 20px, 1440px); }
+      .dashboard { grid-template-columns: repeat(2, 1fr); }
+      .settings-grid, .form-row, .teams, .score-row { grid-template-columns: 1fr; }
+      .versus { padding: 0; }
+      .timer-actions { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Badmintontoernooi Planner</h1>
-    <p>Voer spelers, rankings, banen en rondetijd in. De app maakt automatisch eerlijke dubbelwedstrijden met wachtroulatie en partnerhistorie.</p>
+    <p>Automatische dubbelwedstrijden met rankingbalans, banenlimiet, timer, wachtroulatie, partnerhistorie en standen per koppel.</p>
   </header>
 
   <main>
+    <nav class="tabs">
+      <button class="tab-button active" data-page="tournamentPage">Toernooi</button>
+      <button class="tab-button" data-page="playersPage">Spelers bewerken</button>
+      <button class="tab-button" data-page="standingsPage">Stand per koppel</button>
+    </nav>
+
     <section class="dashboard">
       <div class="stat-card"><span>Spelers</span><strong id="statPlayers">0</strong></div>
       <div class="stat-card"><span>Banen</span><strong id="statCourts">4</strong></div>
@@ -473,103 +294,150 @@
       <div class="stat-card"><span>Rondes</span><strong id="statRounds">0</strong></div>
     </section>
 
-    <section class="grid">
-      <aside>
-        <div class="timer-box">
-          <label style="color: rgba(255,255,255,.78);">Timer huidige ronde</label>
-          <div class="timer-display" id="timerDisplay">15:00</div>
-          <div class="timer-actions">
-            <button id="startTimerBtn">Start</button>
-            <button id="pauseTimerBtn">Pauze</button>
-            <button id="resumeTimerBtn">Hervat</button>
-            <button id="resetTimerBtn">Reset</button>
+    <div id="alert" class="alert"></div>
+
+    <section id="tournamentPage" class="page active">
+      <section class="grid">
+        <aside>
+          <div class="timer-box">
+            <label style="color: rgba(255,255,255,.78);">Timer huidige ronde</label>
+            <div class="timer-display" id="timerDisplay">15:00</div>
+            <div class="timer-actions">
+              <button id="startTimerBtn">Start</button>
+              <button id="pauseTimerBtn">Pauze</button>
+              <button id="resumeTimerBtn">Hervat</button>
+              <button id="resetTimerBtn">Reset</button>
+            </div>
+          </div>
+
+          <section class="panel">
+            <h2>Instellingen</h2>
+            <div class="settings-grid">
+              <div>
+                <label for="courtCount">Aantal banen</label>
+                <input id="courtCount" type="number" min="1" value="4" />
+              </div>
+              <div>
+                <label for="roundMinutes">Rondetijd minuten</label>
+                <input id="roundMinutes" type="number" min="1" value="15" />
+              </div>
+            </div>
+            <button class="full secondary" id="saveSettingsBtn">Instellingen opslaan</button>
+          </section>
+
+          <section class="panel" style="margin-top: 18px;">
+            <h2>Spelers toevoegen</h2>
+            <div class="form-row">
+              <div>
+                <label for="playerName">Naam</label>
+                <input id="playerName" type="text" placeholder="Bijv. Cas" />
+              </div>
+              <div>
+                <label for="playerRank">Ranking</label>
+                <input id="playerRank" type="number" min="1" placeholder="1" />
+              </div>
+            </div>
+            <button class="full" id="addPlayerBtn">Speler toevoegen</button>
+            <div class="button-row">
+              <button class="secondary" id="loadDefaultPlayersBtn">Standaardspelers laden</button>
+            </div>
+            <div id="playerList" class="player-list"></div>
+          </section>
+        </aside>
+
+        <section>
+          <section class="panel">
+            <div class="section-title">
+              <h2>Huidige ronde</h2>
+              <div class="button-row" style="margin:0;">
+                <button id="generateRoundBtn">Genereer ronde</button>
+                <button class="secondary" id="clearCurrentBtn">Wis ronde</button>
+              </div>
+            </div>
+            <div id="matches" class="matches"></div>
+          </section>
+
+          <section class="panel" style="margin-top: 18px;">
+            <div class="section-title">
+              <h2>Wachtende spelers</h2>
+              <span class="muted" id="waitingInfo">Geen ronde gegenereerd</span>
+            </div>
+            <div id="waitingPlayers" class="waiting-grid"></div>
+          </section>
+
+          <section class="panel" style="margin-top: 18px;">
+            <div class="section-title">
+              <h2>Historie</h2>
+              <div class="button-row" style="margin:0;">
+                <button class="warning" id="resetHistoryBtn">Reset historie</button>
+                <button class="danger" id="deleteAllBtn">Alles verwijderen</button>
+              </div>
+            </div>
+            <div id="historyList" class="history-list"></div>
+          </section>
+        </section>
+      </section>
+    </section>
+
+    <section id="playersPage" class="page">
+      <section class="panel">
+        <div class="section-title">
+          <h2>Spelers bewerken</h2>
+          <div class="button-row" style="margin:0;">
+            <button class="secondary" id="loadDefaultPlayersBtn2">Standaardspelers laden</button>
+            <button class="danger" id="deleteAllPlayersBtn">Alle spelers verwijderen</button>
           </div>
         </div>
+        <p class="muted">Bewerk namen en rankings direct in de tabel. Klik daarna op “Opslaan”.</p>
+        <div id="playerEditor" class="ranking-table-wrap"></div>
+      </section>
+    </section>
 
+    <section id="standingsPage" class="page">
+      <section class="two-grid">
         <section class="panel">
-          <h2>Instellingen</h2>
-          <div class="settings-grid">
-            <div>
-              <label for="courtCount">Aantal banen</label>
-              <input id="courtCount" type="number" min="1" value="4" />
-            </div>
-            <div>
-              <label for="roundMinutes">Rondetijd minuten</label>
-              <input id="roundMinutes" type="number" min="1" value="15" />
-            </div>
-          </div>
-          <button class="full secondary" id="saveSettingsBtn">Instellingen opslaan</button>
+          <h2>Stand per koppel</h2>
+          <div id="pairStandings" class="ranking-table-wrap"></div>
         </section>
-
-        <section class="panel" style="margin-top: 18px;">
-          <h2>Spelers</h2>
-          <div class="form-row">
-            <div>
-              <label for="playerName">Naam</label>
-              <input id="playerName" type="text" placeholder="Bijv. Cas" />
-            </div>
-            <div>
-              <label for="playerRank">Ranking</label>
-              <input id="playerRank" type="number" min="1" placeholder="1" />
-            </div>
-          </div>
-          <button class="full" id="addPlayerBtn">Speler toevoegen</button>
-          <div id="playerList" class="player-list"></div>
-        </section>
-      </aside>
-
-      <section>
         <section class="panel">
-          <div class="section-title">
-            <h2>Huidige ronde</h2>
-            <div class="button-row" style="margin:0;">
-              <button id="generateRoundBtn">Genereer ronde</button>
-              <button class="secondary" id="clearCurrentBtn">Wis ronde</button>
-            </div>
-          </div>
-
-          <div id="alert" class="alert"></div>
-          <div id="matches" class="matches"></div>
-        </section>
-
-        <section class="panel" style="margin-top: 18px;">
-          <div class="section-title">
-            <h2>Wachtende spelers</h2>
-            <span class="muted" id="waitingInfo">Geen ronde gegenereerd</span>
-          </div>
-          <div id="waitingPlayers" class="waiting-grid"></div>
-        </section>
-
-        <section class="panel" style="margin-top: 18px;">
-          <div class="section-title">
-            <h2>Historie</h2>
-            <div class="button-row" style="margin:0;">
-              <button class="warning" id="resetHistoryBtn">Reset historie</button>
-              <button class="danger" id="deleteAllBtn">Alles verwijderen</button>
-            </div>
-          </div>
-          <div id="historyList" class="history-list"></div>
+          <h2>Spelerstatistieken</h2>
+          <div id="playerStatsTable" class="ranking-table-wrap"></div>
         </section>
       </section>
     </section>
   </main>
 
   <script>
-    const STORAGE_KEY = "badmintonTournamentPlanner.v1";
+    const STORAGE_KEY = "badmintonTournamentPlanner.v2";
+
+    const DEFAULT_PLAYERS = [
+      { name: "adam", rank: 1 },
+      { name: "aike", rank: 1 },
+      { name: "ilse", rank: 1 },
+      { name: "jelte", rank: 1 },
+      { name: "miloe", rank: 1 },
+      { name: "nancy", rank: 1 },
+      { name: "nathalia", rank: 1 },
+      { name: "elsa", rank: 2 },
+      { name: "hein", rank: 2 },
+      { name: "max", rank: 2 },
+      { name: "nick", rank: 2 },
+      { name: "richard", rank: 2 },
+      { name: "ties", rank: 2 },
+      { name: "timo", rank: 2 },
+      { name: "daniel", rank: 3 },
+      { name: "hugo", rank: 3 },
+      { name: "jonathan", rank: 3 },
+      { name: "mats", rank: 3 },
+      { name: "remi", rank: 3 }
+    ];
 
     const state = {
       players: [],
-      settings: {
-        courts: 4,
-        roundMinutes: 15
-      },
+      settings: { courts: 4, roundMinutes: 15 },
       history: [],
       currentRound: null,
-      timer: {
-        remaining: 15 * 60,
-        running: false,
-        intervalId: null
-      }
+      timer: { remaining: 15 * 60, running: false, intervalId: null }
     };
 
     const el = {
@@ -587,7 +455,10 @@
       playerName: document.getElementById("playerName"),
       playerRank: document.getElementById("playerRank"),
       addPlayerBtn: document.getElementById("addPlayerBtn"),
+      loadDefaultPlayersBtn: document.getElementById("loadDefaultPlayersBtn"),
+      loadDefaultPlayersBtn2: document.getElementById("loadDefaultPlayersBtn2"),
       playerList: document.getElementById("playerList"),
+      playerEditor: document.getElementById("playerEditor"),
       generateRoundBtn: document.getElementById("generateRoundBtn"),
       clearCurrentBtn: document.getElementById("clearCurrentBtn"),
       matches: document.getElementById("matches"),
@@ -596,16 +467,28 @@
       historyList: document.getElementById("historyList"),
       resetHistoryBtn: document.getElementById("resetHistoryBtn"),
       deleteAllBtn: document.getElementById("deleteAllBtn"),
+      deleteAllPlayersBtn: document.getElementById("deleteAllPlayersBtn"),
       alert: document.getElementById("alert"),
       timerDisplay: document.getElementById("timerDisplay"),
       startTimerBtn: document.getElementById("startTimerBtn"),
       pauseTimerBtn: document.getElementById("pauseTimerBtn"),
       resumeTimerBtn: document.getElementById("resumeTimerBtn"),
-      resetTimerBtn: document.getElementById("resetTimerBtn")
+      resetTimerBtn: document.getElementById("resetTimerBtn"),
+      pairStandings: document.getElementById("pairStandings"),
+      playerStatsTable: document.getElementById("playerStatsTable")
     };
 
     function uid() {
       return crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random());
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
     function save() {
@@ -613,35 +496,46 @@
         players: state.players,
         settings: state.settings,
         history: state.history,
-        currentRound: state.currentRound
+        currentRoundId: state.currentRound ? state.currentRound.id : null
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanState));
     }
 
     function load() {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
+      if (!raw) {
+        addDefaultPlayers(false);
+        return;
+      }
 
       try {
         const data = JSON.parse(raw);
         state.players = Array.isArray(data.players) ? data.players : [];
         state.settings = data.settings || state.settings;
         state.history = Array.isArray(data.history) ? data.history : [];
-        state.currentRound = data.currentRound || null;
+        state.currentRound = data.currentRoundId ? state.history.find(r => r.id === data.currentRoundId) || null : null;
         state.timer.remaining = state.settings.roundMinutes * 60;
       } catch {
         localStorage.removeItem(STORAGE_KEY);
+        addDefaultPlayers(false);
       }
     }
 
-    function pairKey(a, b) {
-      return [a, b].sort().join("__");
+    function addDefaultPlayers(shouldSave = true) {
+      const existingNames = new Set(state.players.map(player => player.name.trim().toLowerCase()));
+      for (const player of DEFAULT_PLAYERS) {
+        if (!existingNames.has(player.name.toLowerCase())) {
+          state.players.push({ id: uid(), name: player.name, rank: player.rank });
+        }
+      }
+      if (shouldSave) {
+        save();
+        render();
+        showAlert("Standaardspelers zijn toegevoegd. Bestaande spelers met dezelfde naam zijn niet dubbel toegevoegd.");
+      }
     }
 
-    function teamKey(team) {
-      return pairKey(team[0].id, team[1].id);
-    }
-
+    function pairKey(a, b) { return [a, b].sort().join("__"); }
     function playedPairKeys() {
       const keys = new Set();
       for (const round of state.history) {
@@ -661,11 +555,7 @@
     function allPlayerStats() {
       const stats = new Map();
       for (const player of state.players) {
-        stats.set(player.id, {
-          played: 0,
-          waited: 0,
-          partners: new Set()
-        });
+        stats.set(player.id, { played: 0, waited: 0, wins: 0, losses: 0, draws: 0, pointsFor: 0, pointsAgainst: 0, partners: new Set() });
       }
 
       for (const round of state.history) {
@@ -677,14 +567,15 @@
           const teams = [match.team1.players, match.team2.players];
           for (const team of teams) {
             const [a, b] = team;
-            if (stats.has(a.id)) {
-              stats.get(a.id).played++;
-              stats.get(a.id).partners.add(b.id);
-            }
-            if (stats.has(b.id)) {
-              stats.get(b.id).played++;
-              stats.get(b.id).partners.add(a.id);
-            }
+            if (stats.has(a.id)) { stats.get(a.id).played++; stats.get(a.id).partners.add(b.id); }
+            if (stats.has(b.id)) { stats.get(b.id).played++; stats.get(b.id).partners.add(a.id); }
+          }
+
+          const s1 = Number(match.score1);
+          const s2 = Number(match.score2);
+          if (Number.isFinite(s1) && Number.isFinite(s2)) {
+            updatePlayerScoreStats(match.team1.players, s1, s2, stats);
+            updatePlayerScoreStats(match.team2.players, s2, s1, stats);
           }
         }
       }
@@ -692,9 +583,72 @@
       return stats;
     }
 
+    function updatePlayerScoreStats(players, own, against, stats) {
+      for (const player of players) {
+        if (!stats.has(player.id)) continue;
+        const s = stats.get(player.id);
+        s.pointsFor += own;
+        s.pointsAgainst += against;
+        if (own > against) s.wins++;
+        else if (own < against) s.losses++;
+        else s.draws++;
+      }
+    }
+
+    function pairStandings() {
+      const rows = new Map();
+
+      for (const round of state.history) {
+        for (const match of round.matches) {
+          const s1 = Number(match.score1);
+          const s2 = Number(match.score2);
+          addPairStanding(rows, match.team1, s1, s2);
+          addPairStanding(rows, match.team2, s2, s1);
+        }
+      }
+
+      return [...rows.values()].sort((a, b) => {
+        if (b.matchPoints !== a.matchPoints) return b.matchPoints - a.matchPoints;
+        if (b.diff !== a.diff) return b.diff - a.diff;
+        if (b.pointsFor !== a.pointsFor) return b.pointsFor - a.pointsFor;
+        return a.names.localeCompare(b.names);
+      });
+    }
+
+    function addPairStanding(rows, team, own, against) {
+      if (!rows.has(team.key)) {
+        rows.set(team.key, {
+          key: team.key,
+          names: team.players.map(p => p.name).join(" + "),
+          rankTotal: team.totalRank,
+          played: 0,
+          wins: 0,
+          draws: 0,
+          losses: 0,
+          matchPoints: 0,
+          pointsFor: 0,
+          pointsAgainst: 0,
+          diff: 0
+        });
+      }
+
+      const row = rows.get(team.key);
+      if (!Number.isFinite(own) || !Number.isFinite(against)) return;
+
+      row.played++;
+      row.pointsFor += own;
+      row.pointsAgainst += against;
+      row.diff = row.pointsFor - row.pointsAgainst;
+
+      if (own > against) { row.wins++; row.matchPoints += 3; }
+      else if (own < against) { row.losses++; }
+      else { row.draws++; row.matchPoints += 1; }
+    }
+
     function showAlert(message) {
       el.alert.textContent = message;
       el.alert.classList.add("show");
+      setTimeout(() => el.alert.classList.remove("show"), 4500);
     }
 
     function clearAlert() {
@@ -706,15 +660,6 @@
       if (diff <= 1) return "diff-good";
       if (diff === 2) return "diff-ok";
       return "diff-bad";
-    }
-
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
     }
 
     function formatTime(totalSeconds) {
@@ -732,12 +677,10 @@
     function startTimer() {
       if (state.timer.running) return;
       if (state.timer.remaining <= 0) resetTimerToSettings();
-
       state.timer.running = true;
       state.timer.intervalId = setInterval(() => {
         state.timer.remaining--;
         renderTimer();
-
         if (state.timer.remaining <= 0) {
           stopTimer();
           state.timer.remaining = 0;
@@ -755,30 +698,14 @@
       }
     }
 
-    function renderTimer() {
-      el.timerDisplay.textContent = formatTime(state.timer.remaining);
-    }
+    function renderTimer() { el.timerDisplay.textContent = formatTime(state.timer.remaining); }
 
     function addPlayer() {
       const name = el.playerName.value.trim();
       const rank = Number(el.playerRank.value);
-
-      if (!name) {
-        showAlert("Voer eerst een naam in.");
-        return;
-      }
-
-      if (!Number.isFinite(rank) || rank < 1) {
-        showAlert("Voer een geldige ranking in. Gebruik bijvoorbeeld 1, 2, 3, enzovoort.");
-        return;
-      }
-
-      state.players.push({
-        id: uid(),
-        name,
-        rank: Math.round(rank)
-      });
-
+      if (!name) return showAlert("Voer eerst een naam in.");
+      if (!Number.isFinite(rank) || rank < 1) return showAlert("Voer een geldige ranking in. Gebruik bijvoorbeeld 1, 2, 3, enzovoort.");
+      state.players.push({ id: uid(), name, rank: Math.round(rank) });
       el.playerName.value = "";
       el.playerRank.value = "";
       clearAlert();
@@ -787,26 +714,37 @@
     }
 
     function removePlayer(id) {
+      if (!confirm("Deze speler verwijderen? Historische wedstrijden blijven staan, maar toekomstige rondes gebruiken deze speler niet meer.")) return;
       state.players = state.players.filter(player => player.id !== id);
       state.currentRound = null;
       save();
       render();
     }
 
+    function savePlayerEdit(id) {
+      const player = state.players.find(p => p.id === id);
+      if (!player) return;
+
+      const nameInput = document.getElementById(`edit-name-${id}`);
+      const rankInput = document.getElementById(`edit-rank-${id}`);
+      const name = nameInput.value.trim();
+      const rank = Number(rankInput.value);
+
+      if (!name) return showAlert("Naam mag niet leeg zijn.");
+      if (!Number.isFinite(rank) || rank < 1) return showAlert("Ranking moet minimaal 1 zijn.");
+
+      player.name = name;
+      player.rank = Math.round(rank);
+      save();
+      render();
+      showAlert("Speler opgeslagen.");
+    }
+
     function saveSettings() {
       const courts = Number(el.courtCount.value);
       const roundMinutes = Number(el.roundMinutes.value);
-
-      if (!Number.isFinite(courts) || courts < 1) {
-        showAlert("Het aantal banen moet minimaal 1 zijn.");
-        return;
-      }
-
-      if (!Number.isFinite(roundMinutes) || roundMinutes < 1) {
-        showAlert("De rondetijd moet minimaal 1 minuut zijn.");
-        return;
-      }
-
+      if (!Number.isFinite(courts) || courts < 1) return showAlert("Het aantal banen moet minimaal 1 zijn.");
+      if (!Number.isFinite(roundMinutes) || roundMinutes < 1) return showAlert("De rondetijd moet minimaal 1 minuut zijn.");
       state.settings.courts = Math.floor(courts);
       state.settings.roundMinutes = Math.floor(roundMinutes);
       resetTimerToSettings();
@@ -817,74 +755,45 @@
 
     function makeCandidatePairs(players, usedPairKeys, allowRepeats) {
       const pairs = [];
-
       for (let i = 0; i < players.length; i++) {
         for (let j = i + 1; j < players.length; j++) {
           const a = players[i];
           const b = players[j];
           const key = pairKey(a.id, b.id);
-
           if (!allowRepeats && usedPairKeys.has(key)) continue;
-
-          pairs.push({
-            players: [a, b],
-            key,
-            totalRank: a.rank + b.rank,
-            isRepeat: usedPairKeys.has(key)
-          });
+          pairs.push({ players: [a, b], key, totalRank: a.rank + b.rank, isRepeat: usedPairKeys.has(key) });
         }
       }
-
       return pairs;
     }
 
     function chooseBestMatch(availablePlayers, usedPairKeys, allowRepeats) {
       const pairs = makeCandidatePairs(availablePlayers, usedPairKeys, allowRepeats);
       let best = null;
-
       for (let i = 0; i < pairs.length; i++) {
         for (let j = i + 1; j < pairs.length; j++) {
           const a = pairs[i];
           const b = pairs[j];
           const idsA = new Set(a.players.map(player => player.id));
-          const sharesPlayer = b.players.some(player => idsA.has(player.id));
-          if (sharesPlayer) continue;
-
+          if (b.players.some(player => idsA.has(player.id))) continue;
           const diff = Math.abs(a.totalRank - b.totalRank);
           if (diff > 2) continue;
-
           const repeatPenalty = (a.isRepeat ? 1 : 0) + (b.isRepeat ? 1 : 0);
           const rankSpread = Math.abs(a.players[0].rank - a.players[1].rank) + Math.abs(b.players[0].rank - b.players[1].rank);
           const score = diff * 100 + repeatPenalty * 30 + rankSpread;
-
-          if (!best || score < best.score) {
-            best = {
-              team1: a,
-              team2: b,
-              diff,
-              score
-            };
-          }
+          if (!best || score < best.score) best = { team1: a, team2: b, diff, score };
         }
       }
-
       return best;
     }
 
     function generateRound() {
       clearAlert();
-
-      if (state.players.length < 4) {
-        showAlert("Er zijn minimaal 4 spelers nodig voor één dubbelwedstrijd.");
-        return;
-      }
+      if (state.players.length < 4) return showAlert("Er zijn minimaal 4 spelers nodig voor één dubbelwedstrijd.");
 
       const courts = state.settings.courts;
       const maxMatches = Math.min(courts, Math.floor(state.players.length / 4));
-      if (maxMatches < 1) {
-        showAlert("Er kunnen geen wedstrijden worden gemaakt met het huidige aantal spelers.");
-        return;
-      }
+      if (maxMatches < 1) return showAlert("Er kunnen geen wedstrijden worden gemaakt met het huidige aantal spelers.");
 
       const stats = allPlayerStats();
       const usedPairKeys = playedPairKeys();
@@ -893,7 +802,6 @@
       const sortedPlayers = [...state.players].sort((a, b) => {
         const statA = stats.get(a.id) || { waited: 0, played: 0 };
         const statB = stats.get(b.id) || { waited: 0, played: 0 };
-
         if (statB.waited !== statA.waited) return statB.waited - statA.waited;
         if (statA.played !== statB.played) return statA.played - statB.played;
         return a.rank - b.rank;
@@ -906,39 +814,18 @@
       for (let court = 1; court <= maxMatches; court++) {
         const usedThisRound = new Set([...usedPairKeys, ...roundUsedPairKeys]);
         let match = chooseBestMatch(available, usedThisRound, allPairsUsed);
-
-        if (!match && !allPairsUsed) {
-          match = chooseBestMatch(available, usedThisRound, true);
-        }
-
+        if (!match && !allPairsUsed) match = chooseBestMatch(available, usedThisRound, true);
         if (!match) break;
 
-        const selectedIds = new Set([
-          ...match.team1.players.map(player => player.id),
-          ...match.team2.players.map(player => player.id)
-        ]);
-
-        matches.push({
-          court,
-          team1: match.team1,
-          team2: match.team2,
-          diff: match.diff
-        });
-
+        const selectedIds = new Set([...match.team1.players.map(player => player.id), ...match.team2.players.map(player => player.id)]);
+        matches.push({ court, team1: match.team1, team2: match.team2, diff: match.diff, score1: "", score2: "" });
         roundUsedPairKeys.add(match.team1.key);
         roundUsedPairKeys.add(match.team2.key);
-
-        for (let i = available.length - 1; i >= 0; i--) {
-          if (selectedIds.has(available[i].id)) available.splice(i, 1);
-        }
+        for (let i = available.length - 1; i >= 0; i--) if (selectedIds.has(available[i].id)) available.splice(i, 1);
       }
 
       const waiting = available;
-
-      if (matches.length === 0) {
-        showAlert("Geen geldige wedstrijden gevonden. Controleer rankings, aantal spelers of reset eventueel de partnerhistorie.");
-        return;
-      }
+      if (matches.length === 0) return showAlert("Geen geldige wedstrijden gevonden. Controleer rankings, aantal spelers of reset eventueel de partnerhistorie.");
 
       const round = {
         id: uid(),
@@ -947,16 +834,10 @@
         matches: matches.map(match => ({
           court: match.court,
           diff: match.diff,
-          team1: {
-            key: match.team1.key,
-            totalRank: match.team1.totalRank,
-            players: match.team1.players.map(player => ({ id: player.id, name: player.name, rank: player.rank }))
-          },
-          team2: {
-            key: match.team2.key,
-            totalRank: match.team2.totalRank,
-            players: match.team2.players.map(player => ({ id: player.id, name: player.name, rank: player.rank }))
-          }
+          score1: "",
+          score2: "",
+          team1: { key: match.team1.key, totalRank: match.team1.totalRank, players: match.team1.players.map(player => ({ id: player.id, name: player.name, rank: player.rank })) },
+          team2: { key: match.team2.key, totalRank: match.team2.totalRank, players: match.team2.players.map(player => ({ id: player.id, name: player.name, rank: player.rank })) }
         })),
         waiting: waiting.map(player => ({ id: player.id, name: player.name, rank: player.rank })),
         waitingIds: waiting.map(player => player.id)
@@ -967,6 +848,27 @@
       resetTimerToSettings();
       save();
       render();
+    }
+
+    function saveMatchScore(roundId, matchIndex) {
+      const round = state.history.find(r => r.id === roundId);
+      if (!round || !round.matches[matchIndex]) return;
+
+      const score1Input = document.getElementById(`score1-${roundId}-${matchIndex}`);
+      const score2Input = document.getElementById(`score2-${roundId}-${matchIndex}`);
+      const score1 = Number(score1Input.value);
+      const score2 = Number(score2Input.value);
+
+      if (!Number.isFinite(score1) || !Number.isFinite(score2) || score1 < 0 || score2 < 0) {
+        return showAlert("Voer voor beide koppels een geldige score in.");
+      }
+
+      round.matches[matchIndex].score1 = Math.round(score1);
+      round.matches[matchIndex].score2 = Math.round(score2);
+      state.currentRound = round;
+      save();
+      render();
+      showAlert("Stand opgeslagen en klassement bijgewerkt.");
     }
 
     function clearCurrentRound() {
@@ -995,33 +897,37 @@
       render();
     }
 
+    function deleteAllPlayers() {
+      if (!confirm("Alle spelers verwijderen? De historie wordt ook gewist, omdat oude koppels dan niet meer betrouwbaar zijn.")) return;
+      state.players = [];
+      state.history = [];
+      state.currentRound = null;
+      save();
+      render();
+    }
+
     function renderStats() {
       const playerCount = state.players.length;
       const maxMatches = Math.min(state.settings.courts, Math.floor(playerCount / 4));
       const waiting = Math.max(0, playerCount - maxMatches * 4);
-      const possiblePairs = allPossiblePairCount();
-      const playedPairs = playedPairKeys().size;
-
       el.statPlayers.textContent = playerCount;
       el.statCourts.textContent = state.settings.courts;
       el.statTime.textContent = `${state.settings.roundMinutes}m`;
       el.statMaxMatches.textContent = maxMatches;
       el.statWaiting.textContent = waiting;
-      el.statPossiblePairs.textContent = possiblePairs;
-      el.statPlayedPairs.textContent = playedPairs;
+      el.statPossiblePairs.textContent = allPossiblePairCount();
+      el.statPlayedPairs.textContent = playedPairKeys().size;
       el.statRounds.textContent = state.history.length;
     }
 
     function renderPlayers() {
       const stats = allPlayerStats();
-
       if (state.players.length === 0) {
         el.playerList.innerHTML = `<div class="empty">Nog geen spelers toegevoegd.</div>`;
         return;
       }
 
       const players = [...state.players].sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
-
       el.playerList.innerHTML = players.map(player => {
         const stat = stats.get(player.id) || { played: 0, waited: 0 };
         return `
@@ -1039,9 +945,36 @@
       }).join("");
     }
 
+    function renderPlayerEditor() {
+      if (state.players.length === 0) {
+        el.playerEditor.innerHTML = `<div class="empty">Geen spelers om te bewerken.</div>`;
+        return;
+      }
+
+      const players = [...state.players].sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
+      el.playerEditor.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Naam</th><th>Ranking</th><th>Acties</th></tr>
+          </thead>
+          <tbody>
+            ${players.map(player => `
+              <tr>
+                <td><input id="edit-name-${player.id}" value="${escapeHtml(player.name)}" /></td>
+                <td style="max-width:120px;"><input id="edit-rank-${player.id}" type="number" min="1" value="${player.rank}" /></td>
+                <td style="white-space:nowrap;">
+                  <button class="small-secondary" onclick="savePlayerEdit('${player.id}')">Opslaan</button>
+                  <button class="small-danger" onclick="removePlayer('${player.id}')">Verwijder</button>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
     function renderMatches() {
       const round = state.currentRound;
-
       if (!round) {
         el.matches.innerHTML = `<div class="empty">Klik op “Genereer ronde” om wedstrijden te maken.</div>`;
         el.waitingPlayers.innerHTML = `<div class="empty">Geen wachtende spelers.</div>`;
@@ -1049,26 +982,37 @@
         return;
       }
 
-      el.matches.innerHTML = round.matches.map(match => `
+      el.matches.innerHTML = round.matches.map((match, index) => `
         <article class="match-card">
           <div class="match-header">
             <span class="court-badge">Baan ${match.court}</span>
-            <span class="diff-badge ${diffClass(match.diff)}">Verschil ${match.diff}</span>
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              ${(match.score1 !== "" && match.score2 !== "") ? `<span class="score-badge">${match.score1} - ${match.score2}</span>` : ""}
+              <span class="diff-badge ${diffClass(match.diff)}">Verschil ${match.diff}</span>
+            </div>
           </div>
           <div class="teams">
             <div class="team">
               <h3>Team 1 · totaal ${match.team1.totalRank}</h3>
-              <ul>
-                ${match.team1.players.map(player => `<li>${escapeHtml(player.name)} <small class="muted">ranking ${player.rank}</small></li>`).join("")}
-              </ul>
+              <ul>${match.team1.players.map(player => `<li>${escapeHtml(player.name)} <small class="muted">ranking ${player.rank}</small></li>`).join("")}</ul>
             </div>
             <div class="versus">VS</div>
             <div class="team">
               <h3>Team 2 · totaal ${match.team2.totalRank}</h3>
-              <ul>
-                ${match.team2.players.map(player => `<li>${escapeHtml(player.name)} <small class="muted">ranking ${player.rank}</small></li>`).join("")}
-              </ul>
+              <ul>${match.team2.players.map(player => `<li>${escapeHtml(player.name)} <small class="muted">ranking ${player.rank}</small></li>`).join("")}</ul>
             </div>
+          </div>
+          <div class="score-row">
+            <div class="muted">Voer de stand in voor dit koppelduel.</div>
+            <div>
+              <label for="score1-${round.id}-${index}">Team 1</label>
+              <input id="score1-${round.id}-${index}" type="number" min="0" value="${match.score1}" />
+            </div>
+            <div>
+              <label for="score2-${round.id}-${index}">Team 2</label>
+              <input id="score2-${round.id}-${index}" type="number" min="0" value="${match.score2}" />
+            </div>
+            <button onclick="saveMatchScore('${round.id}', ${index})">Stand opslaan</button>
           </div>
         </article>
       `).join("");
@@ -1080,10 +1024,7 @@
         el.waitingInfo.textContent = `${round.waiting.length} speler(s) wachten`;
         el.waitingPlayers.innerHTML = round.waiting.map(player => `
           <div class="waiting-card">
-            <div>
-              <strong>${escapeHtml(player.name)}</strong>
-              <small>Ranking ${player.rank}</small>
-            </div>
+            <div><strong>${escapeHtml(player.name)}</strong><small>Ranking ${player.rank}</small></div>
             <span class="rank-badge">${player.rank}</span>
           </div>
         `).join("");
@@ -1095,16 +1036,9 @@
         el.historyList.innerHTML = `<div class="empty">Nog geen rondes in de historie.</div>`;
         return;
       }
-
       const rounds = [...state.history].reverse();
       el.historyList.innerHTML = rounds.map(round => {
-        const date = new Date(round.createdAt).toLocaleString("nl-NL", {
-          day: "2-digit",
-          month: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit"
-        });
-
+        const date = new Date(round.createdAt).toLocaleString("nl-NL", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
         return `
           <div class="history-card" style="align-items:flex-start;">
             <div>
@@ -1114,13 +1048,81 @@
                 ${round.matches.map(match => {
                   const t1 = match.team1.players.map(p => escapeHtml(p.name)).join(" + ");
                   const t2 = match.team2.players.map(p => escapeHtml(p.name)).join(" + ");
-                  return `Baan ${match.court}: ${t1} vs ${t2}`;
+                  const score = match.score1 !== "" && match.score2 !== "" ? ` (${match.score1}-${match.score2})` : "";
+                  return `Baan ${match.court}: ${t1} vs ${t2}${score}`;
                 }).join("<br />")}
               </div>
             </div>
           </div>
         `;
       }).join("");
+    }
+
+    function renderPairStandings() {
+      const rows = pairStandings();
+      if (rows.length === 0) {
+        el.pairStandings.innerHTML = `<div class="empty">Nog geen standen ingevoerd.</div>`;
+        return;
+      }
+
+      el.pairStandings.innerHTML = `
+        <table>
+          <thead><tr><th>#</th><th>Koppel</th><th>Rank</th><th>G</th><th>W</th><th>Gelijk</th><th>V</th><th>Punten</th><th>Score</th><th>Saldo</th></tr></thead>
+          <tbody>
+            ${rows.map((row, index) => `
+              <tr>
+                <td>${index + 1}</td>
+                <td><strong>${escapeHtml(row.names)}</strong></td>
+                <td>${row.rankTotal}</td>
+                <td>${row.played}</td>
+                <td>${row.wins}</td>
+                <td>${row.draws}</td>
+                <td>${row.losses}</td>
+                <td><strong>${row.matchPoints}</strong></td>
+                <td>${row.pointsFor}-${row.pointsAgainst}</td>
+                <td>${row.diff > 0 ? "+" : ""}${row.diff}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderPlayerStatsTable() {
+      const stats = allPlayerStats();
+      if (state.players.length === 0) {
+        el.playerStatsTable.innerHTML = `<div class="empty">Geen spelers.</div>`;
+        return;
+      }
+
+      const rows = [...state.players].map(player => {
+        const s = stats.get(player.id);
+        return { player, ...s, diff: s.pointsFor - s.pointsAgainst };
+      }).sort((a, b) => {
+        if (b.wins !== a.wins) return b.wins - a.wins;
+        if (b.diff !== a.diff) return b.diff - a.diff;
+        return a.player.name.localeCompare(b.player.name);
+      });
+
+      el.playerStatsTable.innerHTML = `
+        <table>
+          <thead><tr><th>Speler</th><th>Rank</th><th>Gespeeld</th><th>Gewacht</th><th>W</th><th>V</th><th>Score</th><th>Saldo</th></tr></thead>
+          <tbody>
+            ${rows.map(row => `
+              <tr>
+                <td><strong>${escapeHtml(row.player.name)}</strong></td>
+                <td>${row.player.rank}</td>
+                <td>${row.played}</td>
+                <td>${row.waited}</td>
+                <td>${row.wins}</td>
+                <td>${row.losses}</td>
+                <td>${row.pointsFor}-${row.pointsAgainst}</td>
+                <td>${row.diff > 0 ? "+" : ""}${row.diff}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
     }
 
     function renderSettingsInputs() {
@@ -1132,29 +1134,39 @@
       renderSettingsInputs();
       renderStats();
       renderPlayers();
+      renderPlayerEditor();
       renderMatches();
       renderHistory();
+      renderPairStandings();
+      renderPlayerStatsTable();
       renderTimer();
     }
 
+    document.querySelectorAll(".tab-button").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab-button").forEach(btn => btn.classList.remove("active"));
+        document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+        button.classList.add("active");
+        document.getElementById(button.dataset.page).classList.add("active");
+      });
+    });
+
     el.addPlayerBtn.addEventListener("click", addPlayer);
+    el.loadDefaultPlayersBtn.addEventListener("click", () => addDefaultPlayers(true));
+    el.loadDefaultPlayersBtn2.addEventListener("click", () => addDefaultPlayers(true));
     el.saveSettingsBtn.addEventListener("click", saveSettings);
     el.generateRoundBtn.addEventListener("click", generateRound);
     el.clearCurrentBtn.addEventListener("click", clearCurrentRound);
     el.resetHistoryBtn.addEventListener("click", resetHistory);
     el.deleteAllBtn.addEventListener("click", deleteAll);
+    el.deleteAllPlayersBtn.addEventListener("click", deleteAllPlayers);
     el.startTimerBtn.addEventListener("click", startTimer);
     el.pauseTimerBtn.addEventListener("click", stopTimer);
     el.resumeTimerBtn.addEventListener("click", startTimer);
     el.resetTimerBtn.addEventListener("click", resetTimerToSettings);
 
-    el.playerName.addEventListener("keydown", event => {
-      if (event.key === "Enter") el.playerRank.focus();
-    });
-
-    el.playerRank.addEventListener("keydown", event => {
-      if (event.key === "Enter") addPlayer();
-    });
+    el.playerName.addEventListener("keydown", event => { if (event.key === "Enter") el.playerRank.focus(); });
+    el.playerRank.addEventListener("keydown", event => { if (event.key === "Enter") addPlayer(); });
 
     load();
     render();

@@ -1,1 +1,577 @@
-hoi
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carry Beumer | Flower Power Schilderijen</title>
+  <meta name="description" content="Carry Beumer maakt kleurrijke flower-power schilderijen vol energie, bloemen en positiviteit." />
+  <style>
+    :root {
+      --orange: #ff8a3d;
+      --pink: #ff5da8;
+      --yellow: #ffd84f;
+      --purple: #7c43b8;
+      --turquoise: #4fd8cc;
+      --cream: #fff8ee;
+      --dark: #3a2243;
+      --soft: #ffe2ef;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--dark);
+      background: var(--cream);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(255, 93, 168, 0.22) 0 6%, transparent 7%),
+        radial-gradient(circle at 90% 18%, rgba(79, 216, 204, 0.22) 0 7%, transparent 8%),
+        radial-gradient(circle at 20% 82%, rgba(255, 216, 79, 0.24) 0 7%, transparent 8%),
+        radial-gradient(circle at 85% 85%, rgba(124, 67, 184, 0.18) 0 6%, transparent 7%);
+      z-index: -2;
+    }
+
+    .nav {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      width: min(92%, 1080px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 50px rgba(58, 34, 67, 0.12);
+    }
+
+    .brand {
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: var(--purple);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: 0.25s ease;
+    }
+
+    .nav a:hover {
+      background: var(--soft);
+      color: #c7267d;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 130px 7% 90px;
+      position: relative;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 16% 22%, rgba(255, 216, 79, 0.92) 0 7%, transparent 8%),
+        radial-gradient(circle at 78% 24%, rgba(79, 216, 204, 0.84) 0 9%, transparent 10%),
+        radial-gradient(circle at 45% 82%, rgba(255, 93, 168, 0.82) 0 11%, transparent 12%),
+        linear-gradient(135deg, #ff8a3d 0%, #ff5da8 38%, #7c43b8 72%, #4fd8cc 100%);
+      overflow: hidden;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "✿ ✺ ✽ ✿ ✹";
+      position: absolute;
+      font-size: clamp(4rem, 14vw, 11rem);
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.22);
+      letter-spacing: 0.14em;
+      transform: rotate(-12deg);
+      z-index: -1;
+      animation: float 9s ease-in-out infinite;
+    }
+
+    .hero::before {
+      top: 15%;
+      left: -8%;
+    }
+
+    .hero::after {
+      right: -10%;
+      bottom: 10%;
+      animation-delay: -4s;
+      transform: rotate(10deg);
+    }
+
+    .hero-card {
+      width: min(980px, 100%);
+      padding: clamp(36px, 8vw, 82px) clamp(24px, 7vw, 72px);
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: clamp(34px, 7vw, 70px);
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 30px 90px rgba(58, 34, 67, 0.28);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #c7267d;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.84rem;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--white);
+      font-size: clamp(3.4rem, 10vw, 8.6rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      text-shadow: 0 10px 35px rgba(58, 34, 67, 0.32);
+    }
+
+    .subtitle {
+      margin: 22px auto 0;
+      color: var(--white);
+      font-size: clamp(1.35rem, 3.1vw, 2.25rem);
+      font-weight: 800;
+    }
+
+    .hero-text {
+      max-width: 760px;
+      margin: 24px auto 34px;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 15px 25px;
+      border-radius: 999px;
+      border: 0;
+      background: var(--white);
+      color: #c7267d;
+      text-decoration: none;
+      font-weight: 900;
+      box-shadow: 0 14px 30px rgba(58, 34, 67, 0.22);
+      transition: 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(58, 34, 67, 0.26);
+    }
+
+    .btn.secondary {
+      background: rgba(58, 34, 67, 0.86);
+      color: var(--white);
+    }
+
+    section {
+      padding: clamp(70px, 9vw, 120px) 7%;
+    }
+
+    .section-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .intro-panel {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: clamp(28px, 5vw, 54px);
+      border-radius: 42px;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow: 0 20px 55px rgba(58, 34, 67, 0.1);
+      text-align: center;
+    }
+
+    .intro-panel p {
+      margin: 0;
+      font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    h2 {
+      margin: 0 0 20px;
+      text-align: center;
+      color: #c7267d;
+      font-size: clamp(2.35rem, 5vw, 4.6rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .section-lead {
+      max-width: 760px;
+      margin: 0 auto 44px;
+      text-align: center;
+      color: rgba(58, 34, 67, 0.78);
+      line-height: 1.75;
+      font-size: 1.08rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .art-card {
+      overflow: hidden;
+      border-radius: 34px;
+      background: var(--white);
+      box-shadow: 0 18px 42px rgba(58, 34, 67, 0.13);
+      transition: 0.28s ease;
+    }
+
+    .art-card:hover {
+      transform: translateY(-8px) rotate(-0.7deg);
+      box-shadow: 0 24px 56px rgba(58, 34, 67, 0.18);
+    }
+
+    .art-image {
+      min-height: 280px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 24%, #fff8ee 0 9%, transparent 10%),
+        radial-gradient(circle at 75% 30%, #ffd84f 0 12%, transparent 13%),
+        radial-gradient(circle at 44% 76%, #4fd8cc 0 14%, transparent 15%),
+        linear-gradient(135deg, var(--orange), var(--pink), var(--purple));
+    }
+
+    .art-image::before {
+      content: "✿";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 7rem;
+      filter: drop-shadow(0 10px 12px rgba(58, 34, 67, 0.16));
+    }
+
+    .art-image::after {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: repeating-radial-gradient(circle, rgba(255,255,255,0.18) 0 4px, transparent 5px 18px);
+      transform: rotate(12deg);
+    }
+
+    .art-card:nth-child(2) .art-image {
+      background:
+        radial-gradient(circle at 23% 74%, #fff8ee 0 10%, transparent 11%),
+        radial-gradient(circle at 72% 22%, #ff5da8 0 14%, transparent 15%),
+        linear-gradient(135deg, #4fd8cc, #ffd84f, #ff8a3d);
+    }
+
+    .art-card:nth-child(3) .art-image {
+      background:
+        radial-gradient(circle at 72% 70%, #fff8ee 0 10%, transparent 11%),
+        radial-gradient(circle at 30% 25%, #ffd84f 0 13%, transparent 14%),
+        linear-gradient(135deg, #7c43b8, #ff5da8, #ff8a3d);
+    }
+
+    .art-card:nth-child(4) .art-image {
+      background:
+        radial-gradient(circle at 70% 20%, #fff8ee 0 10%, transparent 11%),
+        radial-gradient(circle at 24% 72%, #ff5da8 0 13%, transparent 14%),
+        linear-gradient(135deg, #ffd84f, #4fd8cc, #7c43b8);
+    }
+
+    .art-card h3 {
+      margin: 0;
+      padding: 23px 22px 6px;
+      color: var(--purple);
+      font-size: 1.25rem;
+    }
+
+    .art-card p {
+      margin: 0;
+      padding: 0 22px 24px;
+      color: rgba(58, 34, 67, 0.68);
+      line-height: 1.55;
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: center;
+      padding: clamp(28px, 5vw, 56px);
+      border-radius: 56px;
+      background:
+        radial-gradient(circle at 10% 12%, rgba(255,216,79,0.38) 0 15%, transparent 16%),
+        linear-gradient(135deg, #ffe2ef, #fff8ee 58%, #dffbf8);
+      box-shadow: 0 22px 62px rgba(58, 34, 67, 0.12);
+    }
+
+    .portrait-placeholder {
+      min-height: 390px;
+      border-radius: 46px;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(255,255,255,0.86) 0 14%, transparent 15%),
+        radial-gradient(circle at 30% 62%, rgba(255,216,79,0.88) 0 10%, transparent 11%),
+        radial-gradient(circle at 70% 64%, rgba(79,216,204,0.86) 0 10%, transparent 11%),
+        linear-gradient(135deg, #ff8a3d, #ff5da8, #7c43b8);
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.82);
+      font-size: 6rem;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+    }
+
+    .about-text h2 {
+      text-align: left;
+    }
+
+    .about-text p {
+      margin: 0 0 18px;
+      color: rgba(58, 34, 67, 0.82);
+      line-height: 1.8;
+      font-size: 1.08rem;
+    }
+
+    .contact-section {
+      background:
+        linear-gradient(135deg, rgba(255,216,79,0.5), rgba(255,93,168,0.34), rgba(79,216,204,0.42));
+    }
+
+    .contact-card {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: clamp(32px, 6vw, 64px);
+      border-radius: 54px;
+      text-align: center;
+      background: rgba(255,255,255,0.78);
+      box-shadow: 0 26px 65px rgba(58, 34, 67, 0.14);
+    }
+
+    .contact-card p {
+      margin: 0 auto 28px;
+      max-width: 660px;
+      line-height: 1.75;
+      font-size: 1.12rem;
+      color: rgba(58, 34, 67, 0.78);
+    }
+
+    .contact-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 28px 0 34px;
+    }
+
+    .contact-option {
+      padding: 18px;
+      border-radius: 26px;
+      background: var(--cream);
+      font-weight: 800;
+      color: var(--purple);
+    }
+
+    footer {
+      padding: 34px 7%;
+      text-align: center;
+      color: rgba(255,255,255,0.78);
+      background: var(--dark);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-10deg); }
+      50% { transform: translateY(-18px) rotate(-6deg); }
+    }
+
+    @media (max-width: 980px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .about-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .about-text h2 {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        position: absolute;
+        top: 12px;
+        border-radius: 28px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .nav a {
+        padding: 8px 10px;
+        font-size: 0.88rem;
+      }
+
+      .hero {
+        padding-top: 190px;
+      }
+
+      .gallery-grid,
+      .contact-options {
+        grid-template-columns: 1fr;
+      }
+
+      .art-image,
+      .portrait-placeholder {
+        min-height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Hoofdnavigatie">
+    <div class="brand">Carry Beumer</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#galerij">Galerij</a>
+      <a href="#over">Over Carry</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <div class="hero-card">
+      <span class="eyebrow">Kleur • Bloemen • Positiviteit</span>
+      <h1>Carry Beumer</h1>
+      <div class="subtitle">Flower Power Schilderijen</div>
+      <p class="hero-text">Een kleurrijke kunstenaarswebsite vol retro vormen, zachte verfstructuren en warme flower-power energie.</p>
+      <div class="actions">
+        <a href="#galerij" class="btn">Bekijk schilderijen</a>
+        <a href="#contact" class="btn secondary">Neem contact op</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section aria-label="Introductie">
+      <div class="intro-panel">
+        <p>Carry Beumer maakt kleurrijke schilderijen vol energie, bloemen en positiviteit. Haar werk brengt de vrije, vrolijke sfeer van flower power tot leven.</p>
+      </div>
+    </section>
+
+    <section id="galerij">
+      <div class="section-inner">
+        <h2>Galerij</h2>
+        <p class="section-lead">Een selectie kunstkaarten als voorbeeld. Vervang deze vlakken later door echte foto’s van Carry’s schilderijen.</p>
+        <div class="gallery-grid">
+          <article class="art-card">
+            <div class="art-image" aria-label="Abstract flower-power schilderij"></div>
+            <h3>Zonnige Bloemen</h3>
+            <p>Warm, vrolijk en vol zachte bloemvormen.</p>
+          </article>
+          <article class="art-card">
+            <div class="art-image" aria-label="Retro flower-power schilderij"></div>
+            <h3>Retro Garden</h3>
+            <p>Een speelse compositie met jaren 70 energie.</p>
+          </article>
+          <article class="art-card">
+            <div class="art-image" aria-label="Kleurrijk flower-power schilderij"></div>
+            <h3>Peace & Petals</h3>
+            <p>Bloemen, beweging en positieve uitstraling.</p>
+          </article>
+          <article class="art-card">
+            <div class="art-image" aria-label="Expressief kleurrijk schilderij"></div>
+            <h3>Kleurexplosie</h3>
+            <p>Een levendig werk met turquoise en roze accenten.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="over">
+      <div class="section-inner about-wrap">
+        <div class="portrait-placeholder" aria-label="Artistieke portretplek">✿</div>
+        <div class="about-text">
+          <h2>Over Carry</h2>
+          <p>Carry Beumer schildert vanuit gevoel, kleur en vrijheid. Haar schilderijen zijn expressief, warm en herkenbaar door bloemen, ronde vormen en levendige kleuren.</p>
+          <p>De stijl voelt vrolijk en persoonlijk: kunst die ruimte kleur geeft en een positieve sfeer oproept. Elk werk heeft een eigen karakter, maar blijft verbonden met de vrije flower-power uitstraling.</p>
+          <a href="#contact" class="btn">Vraag informatie aan</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <div class="contact-card">
+        <h2>Contact</h2>
+        <p>Interesse in een schilderij, aankoop, opdracht of expositie? Neem contact op met Carry Beumer voor mogelijkheden, beschikbaar werk of een persoonlijke aanvraag.</p>
+        <div class="contact-options">
+          <div class="contact-option">Aanvragen</div>
+          <div class="contact-option">Aankopen</div>
+          <div class="contact-option">Exposities</div>
+        </div>
+        <a href="mailto:info@example.com" class="btn">Neem contact op</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Carry Beumer — Flower Power Schilderijen
+  </footer>
+</body>
+</html>

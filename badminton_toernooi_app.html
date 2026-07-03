@@ -343,6 +343,31 @@
             </div>
             <div id="playerList" class="player-list"></div>
           </section>
+
+          <section class="panel" style="margin-top: 18px;">
+            <h2>Vaste koppels</h2>
+            <p class="muted" style="margin-top:-6px;">Koppel twee spelers permanent aan elkaar en geef het koppel een eigen ranking (bijv. koppel-ranking 3). Ze spelen dan altijd samen en tellen niet als losse spelers mee bij het loten.</p>
+            <div class="form-row">
+              <div>
+                <label for="fixedPairPlayer1">Speler 1</label>
+                <select id="fixedPairPlayer1"></select>
+              </div>
+              <div>
+                <label for="fixedPairPlayer2">Speler 2</label>
+                <select id="fixedPairPlayer2"></select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div>
+                <label for="fixedPairRank">Ranking van het koppel</label>
+                <input id="fixedPairRank" type="number" min="1" placeholder="Bijv. 3" />
+              </div>
+              <div style="display:flex; align-items:end;">
+                <button class="full" id="addFixedPairBtn">Vast koppel toevoegen</button>
+              </div>
+            </div>
+            <div id="fixedPairsList" class="player-list"></div>
+          </section>
         </aside>
 
         <section>
@@ -434,6 +459,7 @@
 
     const state = {
       players: [],
+      fixedPairs: [],
       settings: { courts: 4, roundMinutes: 15 },
       history: [],
       currentRound: null,
@@ -464,6 +490,11 @@
       matches: document.getElementById("matches"),
       waitingPlayers: document.getElementById("waitingPlayers"),
       waitingInfo: document.getElementById("waitingInfo"),
+      fixedPairPlayer1: document.getElementById("fixedPairPlayer1"),
+      fixedPairPlayer2: document.getElementById("fixedPairPlayer2"),
+      fixedPairRank: document.getElementById("fixedPairRank"),
+      addFixedPairBtn: document.getElementById("addFixedPairBtn"),
+      fixedPairsList: document.getElementById("fixedPairsList"),
       historyList: document.getElementById("historyList"),
       resetHistoryBtn: document.getElementById("resetHistoryBtn"),
       deleteAllBtn: document.getElementById("deleteAllBtn"),
@@ -494,6 +525,7 @@
     function save() {
       const cleanState = {
         players: state.players,
+        fixedPairs: state.fixedPairs,
         settings: state.settings,
         history: state.history,
         currentRoundId: state.currentRound ? state.currentRound.id : null
@@ -511,6 +543,7 @@
       try {
         const data = JSON.parse(raw);
         state.players = Array.isArray(data.players) ? data.players : [];
+        state.fixedPairs = Array.isArray(data.fixedPairs) ? data.fixedPairs : [];
         state.settings = data.settings || state.settings;
         state.history = Array.isArray(data.history) ? data.history : [];
         state.currentRound = data.currentRoundId ? state.history.find(r => r.id === data.currentRoundId) || null : null;
@@ -716,6 +749,7 @@
     function removePlayer(id) {
       if (!confirm("Deze speler verwijderen? Historische wedstrijden blijven staan, maar toekomstige rondes gebruiken deze speler niet meer.")) return;
       state.players = state.players.filter(player => player.id !== id);
+      state.fixedPairs = state.fixedPairs.filter(fp => fp.player1Id !== id && fp.player2Id !== id);
       state.currentRound = null;
       save();
       render();
@@ -755,10 +789,25 @@
 
     function makeCandidatePairs(players, usedPairKeys, allowRepeats) {
       const pairs = [];
-      for (let i = 0; i < players.length; i++) {
-        for (let j = i + 1; j < players.length; j++) {
-          const a = players[i];
-          const b = players[j];
+      const availableIds = new Set(players.map(player => player.id));
+      const consumedFixedIds = new Set();
+
+      for (const fp of state.fixedPairs) {
+        if (!availableIds.has(fp.player1Id) || !availableIds.has(fp.player2Id)) continue;
+        const a = players.find(player => player.id === fp.player1Id);
+        const b = players.find(player => player.id === fp.player2Id);
+        const key = pairKey(a.id, b.id);
+        // Vaste koppels blijven altijd samen en gebruiken de koppel-ranking; ze slaan de partnerrotatie-check over.
+        pairs.push({ players: [a, b], key, totalRank: fp.rank, isRepeat: false, isFixed: true });
+        consumedFixedIds.add(a.id);
+        consumedFixedIds.add(b.id);
+      }
+
+      const freePlayers = players.filter(player => !consumedFixedIds.has(player.id));
+      for (let i = 0; i < freePlayers.length; i++) {
+        for (let j = i + 1; j < freePlayers.length; j++) {
+          const a = freePlayers[i];
+          const b = freePlayers[j];
           const key = pairKey(a.id, b.id);
           if (!allowRepeats && usedPairKeys.has(key)) continue;
           pairs.push({ players: [a, b], key, totalRank: a.rank + b.rank, isRepeat: usedPairKeys.has(key) });
@@ -890,6 +939,7 @@
       stopTimer();
       localStorage.removeItem(STORAGE_KEY);
       state.players = [];
+      state.fixedPairs = [];
       state.settings = { courts: 4, roundMinutes: 15 };
       state.history = [];
       state.currentRound = null;
@@ -900,8 +950,36 @@
     function deleteAllPlayers() {
       if (!confirm("Alle spelers verwijderen? De historie wordt ook gewist, omdat oude koppels dan niet meer betrouwbaar zijn.")) return;
       state.players = [];
+      state.fixedPairs = [];
       state.history = [];
       state.currentRound = null;
+      save();
+      render();
+    }
+
+    function addFixedPair() {
+      const player1Id = el.fixedPairPlayer1.value;
+      const player2Id = el.fixedPairPlayer2.value;
+      const rank = Number(el.fixedPairRank.value);
+
+      if (!player1Id || !player2Id) return showAlert("Kies twee spelers voor het vaste koppel.");
+      if (player1Id === player2Id) return showAlert("Kies twee verschillende spelers voor het vaste koppel.");
+      if (!Number.isFinite(rank) || rank < 1) return showAlert("Voer een geldige ranking voor het koppel in.");
+
+      const alreadyPaired = state.fixedPairs.some(fp => [fp.player1Id, fp.player2Id].includes(player1Id) || [fp.player1Id, fp.player2Id].includes(player2Id));
+      if (alreadyPaired) return showAlert("Een van deze spelers zit al in een vast koppel. Verwijder eerst dat koppel.");
+
+      state.fixedPairs.push({ id: uid(), player1Id, player2Id, rank: Math.round(rank) });
+      el.fixedPairRank.value = "";
+      clearAlert();
+      save();
+      render();
+      showAlert("Vast koppel toegevoegd.");
+    }
+
+    function removeFixedPair(id) {
+      if (!confirm("Dit vaste koppel verwijderen?")) return;
+      state.fixedPairs = state.fixedPairs.filter(fp => fp.id !== id);
       save();
       render();
     }
@@ -920,6 +998,15 @@
       el.statRounds.textContent = state.history.length;
     }
 
+    function fixedPairPartnerMap() {
+      const map = new Map();
+      for (const fp of state.fixedPairs) {
+        map.set(fp.player1Id, fp);
+        map.set(fp.player2Id, fp);
+      }
+      return map;
+    }
+
     function renderPlayers() {
       const stats = allPlayerStats();
       if (state.players.length === 0) {
@@ -927,18 +1014,64 @@
         return;
       }
 
+      const fixedMap = fixedPairPartnerMap();
       const players = [...state.players].sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
       el.playerList.innerHTML = players.map(player => {
         const stat = stats.get(player.id) || { played: 0, waited: 0 };
+        const fp = fixedMap.get(player.id);
+        let fixedNote = "";
+        if (fp) {
+          const partnerId = fp.player1Id === player.id ? fp.player2Id : fp.player1Id;
+          const partner = state.players.find(p => p.id === partnerId);
+          fixedNote = ` · Vast koppel met ${escapeHtml(partner ? partner.name : "?")} (ranking ${fp.rank})`;
+        }
         return `
           <div class="player-card">
             <div>
               <strong>${escapeHtml(player.name)}</strong>
-              <small>Gespeeld: ${stat.played} · Gewacht: ${stat.waited}</small>
+              <small>Gespeeld: ${stat.played} · Gewacht: ${stat.waited}${fixedNote}</small>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
               <span class="rank-badge">${player.rank}</span>
               <button class="small-danger" onclick="removePlayer('${player.id}')">Verwijder</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderFixedPairOptions() {
+      const players = [...state.players].sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name));
+      const options = players.map(player => `<option value="${player.id}">${escapeHtml(player.name)} (ranking ${player.rank})</option>`).join("");
+      const placeholder = `<option value="">Kies speler…</option>`;
+      const selected1 = el.fixedPairPlayer1.value;
+      const selected2 = el.fixedPairPlayer2.value;
+      el.fixedPairPlayer1.innerHTML = placeholder + options;
+      el.fixedPairPlayer2.innerHTML = placeholder + options;
+      if (players.some(p => p.id === selected1)) el.fixedPairPlayer1.value = selected1;
+      if (players.some(p => p.id === selected2)) el.fixedPairPlayer2.value = selected2;
+    }
+
+    function renderFixedPairsList() {
+      if (state.fixedPairs.length === 0) {
+        el.fixedPairsList.innerHTML = `<div class="empty">Nog geen vaste koppels.</div>`;
+        return;
+      }
+
+      const playerById = new Map(state.players.map(p => [p.id, p]));
+      el.fixedPairsList.innerHTML = state.fixedPairs.map(fp => {
+        const p1 = playerById.get(fp.player1Id);
+        const p2 = playerById.get(fp.player2Id);
+        const names = `${escapeHtml(p1 ? p1.name : "?")} + ${escapeHtml(p2 ? p2.name : "?")}`;
+        return `
+          <div class="player-card">
+            <div>
+              <strong>${names}</strong>
+              <small>Koppel-ranking ${fp.rank}</small>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="rank-badge">${fp.rank}</span>
+              <button class="small-danger" onclick="removeFixedPair('${fp.id}')">Verwijder</button>
             </div>
           </div>
         `;
@@ -1134,6 +1267,8 @@
       renderSettingsInputs();
       renderStats();
       renderPlayers();
+      renderFixedPairOptions();
+      renderFixedPairsList();
       renderPlayerEditor();
       renderMatches();
       renderHistory();
@@ -1152,6 +1287,7 @@
     });
 
     el.addPlayerBtn.addEventListener("click", addPlayer);
+    el.addFixedPairBtn.addEventListener("click", addFixedPair);
     el.loadDefaultPlayersBtn.addEventListener("click", () => addDefaultPlayers(true));
     el.loadDefaultPlayersBtn2.addEventListener("click", () => addDefaultPlayers(true));
     el.saveSettingsBtn.addEventListener("click", saveSettings);

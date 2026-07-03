@@ -581,6 +581,16 @@
       return keys;
     }
 
+    function playedMatchupKeys() {
+      const keys = new Set();
+      for (const round of state.history) {
+        for (const match of round.matches) {
+          keys.add(pairKey(match.team1.key, match.team2.key));
+        }
+      }
+      return keys;
+    }
+
     function allPossiblePairCount() {
       const n = state.players.length;
       return n < 2 ? 0 : (n * (n - 1)) / 2;
@@ -817,7 +827,7 @@
       return pairs;
     }
 
-    function chooseBestMatch(availablePlayers, usedPairKeys, allowRepeats) {
+    function chooseBestMatch(availablePlayers, usedPairKeys, allowRepeats, usedMatchupKeys, allowMatchupRepeats) {
       const pairs = makeCandidatePairs(availablePlayers, usedPairKeys, allowRepeats);
       let best = null;
       for (let i = 0; i < pairs.length; i++) {
@@ -826,12 +836,16 @@
           const b = pairs[j];
           const idsA = new Set(a.players.map(player => player.id));
           if (b.players.some(player => idsA.has(player.id))) continue;
+          const matchupKey = pairKey(a.key, b.key);
+          const matchupIsRepeat = usedMatchupKeys.has(matchupKey);
+          if (!allowMatchupRepeats && matchupIsRepeat) continue;
           const diff = Math.abs(a.totalRank - b.totalRank);
           if (diff > 2) continue;
           const repeatPenalty = (a.isRepeat ? 1 : 0) + (b.isRepeat ? 1 : 0);
           const rankSpread = Math.abs(a.players[0].rank - a.players[1].rank) + Math.abs(b.players[0].rank - b.players[1].rank);
-          const score = diff * 100 + repeatPenalty * 30 + rankSpread;
-          if (!best || score < best.score) best = { team1: a, team2: b, diff, score };
+          const matchupPenalty = matchupIsRepeat ? 500 : 0;
+          const score = diff * 100 + repeatPenalty * 30 + rankSpread + matchupPenalty;
+          if (!best || score < best.score) best = { team1: a, team2: b, diff, score, matchupKey };
         }
       }
       return best;
@@ -848,6 +862,7 @@
       const stats = allPlayerStats();
       const usedPairKeys = playedPairKeys();
       const allPairsUsed = usedPairKeys.size >= allPossiblePairCount();
+      const usedMatchupKeys = playedMatchupKeys();
 
       const sortedPlayers = [...state.players].sort((a, b) => {
         const statA = stats.get(a.id) || { waited: 0, played: 0 };
@@ -860,17 +875,21 @@
       const available = [...sortedPlayers];
       const matches = [];
       const roundUsedPairKeys = new Set();
+      const roundUsedMatchupKeys = new Set();
 
       for (let court = 1; court <= maxMatches; court++) {
         const usedThisRound = new Set([...usedPairKeys, ...roundUsedPairKeys]);
-        let match = chooseBestMatch(available, usedThisRound, allPairsUsed);
-        if (!match && !allPairsUsed) match = chooseBestMatch(available, usedThisRound, true);
+        const usedMatchupsThisRound = new Set([...usedMatchupKeys, ...roundUsedMatchupKeys]);
+        let match = chooseBestMatch(available, usedThisRound, allPairsUsed, usedMatchupsThisRound, false);
+        if (!match) match = chooseBestMatch(available, usedThisRound, allPairsUsed, usedMatchupsThisRound, true);
+        if (!match && !allPairsUsed) match = chooseBestMatch(available, usedThisRound, true, usedMatchupsThisRound, true);
         if (!match) break;
 
         const selectedIds = new Set([...match.team1.players.map(player => player.id), ...match.team2.players.map(player => player.id)]);
         matches.push({ court, team1: match.team1, team2: match.team2, diff: match.diff, score1: "", score2: "" });
         roundUsedPairKeys.add(match.team1.key);
         roundUsedPairKeys.add(match.team2.key);
+        roundUsedMatchupKeys.add(match.matchupKey);
         for (let i = available.length - 1; i >= 0; i--) if (selectedIds.has(available[i].id)) available.splice(i, 1);
       }
 
@@ -1305,7 +1324,91 @@
     el.playerName.addEventListener("keydown", event => { if (event.key === "Enter") el.playerRank.focus(); });
     el.playerRank.addEventListener("keydown", event => { if (event.key === "Enter") addPlayer(); });
 
+    function injectManualRoundOnce() {
+      const FLAG = "badmintonManualRound_20260703_v1";
+      if (localStorage.getItem(FLAG)) return;
+
+      const matchups = [
+        { team1: [["Cas"], ["Max"]], team2: [["Femke"], ["Nick Femke"]] },
+        { team1: [["Louis"], ["Richard"]], team2: [["Miloe"], ["Vriendin Miloe"]] },
+        { team1: [["Nick"], ["Nina"]], team2: [["Dennis"], ["Vader Dennis"]] },
+        { team1: [["Thomas"], ["Passsnt", "Passnt"]], team2: [["Nathalia"], ["Vriendin Nathalia"]] },
+        { team1: [["Jelte"], ["Yara"]], team2: [["Mats"], ["Vriend Mats"]] }
+      ];
+
+      function findPlayer(candidates) {
+        for (const name of candidates) {
+          const normalized = name.trim().toLowerCase();
+          const found = state.players.find(p => p.name.trim().toLowerCase() === normalized);
+          if (found) return found;
+        }
+        return null;
+      }
+
+      const missing = [];
+      const resolved = matchups.map(m => {
+        const t1 = m.team1.map(candidates => {
+          const player = findPlayer(candidates);
+          if (!player) missing.push(candidates[0]);
+          return player;
+        });
+        const t2 = m.team2.map(candidates => {
+          const player = findPlayer(candidates);
+          if (!player) missing.push(candidates[0]);
+          return player;
+        });
+        return { t1, t2 };
+      });
+
+      if (missing.length > 0) {
+        localStorage.setItem(FLAG, "skipped");
+        showAlert(`Kon de opgegeven ronde niet automatisch toevoegen: speler(s) niet gevonden: ${missing.join(", ")}.`);
+        return;
+      }
+
+      const matches = resolved.map((m, index) => {
+        const key1 = pairKey(m.t1[0].id, m.t1[1].id);
+        const key2 = pairKey(m.t2[0].id, m.t2[1].id);
+        const fixed1 = state.fixedPairs.find(fp => pairKey(fp.player1Id, fp.player2Id) === key1);
+        const fixed2 = state.fixedPairs.find(fp => pairKey(fp.player1Id, fp.player2Id) === key2);
+        const totalRank1 = fixed1 ? fixed1.rank : m.t1[0].rank + m.t1[1].rank;
+        const totalRank2 = fixed2 ? fixed2.rank : m.t2[0].rank + m.t2[1].rank;
+        return {
+          court: index + 1,
+          diff: Math.abs(totalRank1 - totalRank2),
+          score1: "",
+          score2: "",
+          team1: { key: key1, totalRank: totalRank1, players: m.t1.map(p => ({ id: p.id, name: p.name, rank: p.rank })) },
+          team2: { key: key2, totalRank: totalRank2, players: m.t2.map(p => ({ id: p.id, name: p.name, rank: p.rank })) }
+        };
+      });
+
+      const usedIds = new Set();
+      matches.forEach(match => {
+        match.team1.players.forEach(p => usedIds.add(p.id));
+        match.team2.players.forEach(p => usedIds.add(p.id));
+      });
+      const waiting = state.players.filter(p => !usedIds.has(p.id));
+
+      const round = {
+        id: uid(),
+        number: state.history.length + 1,
+        createdAt: new Date().toISOString(),
+        matches,
+        waiting: waiting.map(p => ({ id: p.id, name: p.name, rank: p.rank })),
+        waitingIds: waiting.map(p => p.id)
+      };
+
+      state.currentRound = round;
+      state.history.push(round);
+      resetTimerToSettings();
+      save();
+      localStorage.setItem(FLAG, "done");
+      showAlert("Jouw opgegeven ronde is toegevoegd als nieuwe ronde.");
+    }
+
     load();
+    injectManualRoundOnce();
     render();
   </script>
 </body>
